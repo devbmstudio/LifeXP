@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "The main profile for a LifeXP user.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The user's unique ID." },
+        "name": { "type": "string", "description": "The user's display name." },
+        "class": { "type": "string", "enum": ["Warrior", "Mage", "Rogue", "Paladin"], "description": "The user's chosen class." },
+        "level": { "type": "integer", "description": "The user's current level." },
+        "xp": { "type": "integer", "description": "The user's total XP." },
+        "rank": { "type": "string", "description": "The user's rank title." },
+        "streak": { "type": "integer", "description": "The user's current daily streak." },
+        "lastActive": { "type": "string", "format": "date-time", "description": "When the user was last active." },
+        "lastNightCheck": { "type": "string", "format": "date-time", "description": "When the user last completed a night check-in." },
+        "skills": { "type": "array", "items": { "type": "string" }, "description": "List of skill IDs." },
+        "achievements": { "type": "array", "items": { "type": "string" }, "description": "List of achievement IDs." }
+      },
+      "required": ["uid", "name", "class", "level", "xp", "rank", "streak", "lastActive", "skills", "achievements"]
+    },
+    "Habit": {
+      "title": "Habit",
+      "description": "A daily habit for the user.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The name of the habit." },
+        "category": { "type": "string", "description": "The category of the habit." },
+        "difficulty": { "type": "string", "enum": ["Normal", "Hard", "Legendary"], "description": "The difficulty level." },
+        "streak": { "type": "integer", "description": "The current daily streak." },
+        "lastCompleted": { "type": "string", "description": "The last date (YYYY-MM-DD) the habit was completed." }
+      },
+      "required": ["name", "category", "difficulty", "streak", "lastCompleted"]
+    },
+    "Goal": {
+      "title": "Goal",
+      "description": "A long-term goal for the user.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The title of the goal." },
+        "category": { "type": "string", "description": "The category of the goal." },
+        "progress": { "type": "integer", "description": "The progress percentage (0-100)." },
+        "deadline": { "type": "string", "description": "The target date for the goal." },
+        "rewards": { "type": "array", "items": { "type": "string" }, "description": "List of rewards for completion." }
+      },
+      "required": ["name", "category", "progress"]
+    },
+    "Skill": {
+      "title": "Skill",
+      "description": "A skill level for a specific category.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The name of the skill/category." },
+        "level": { "type": "integer", "description": "The current level of the skill." },
+        "xp": { "type": "integer", "description": "The current XP in the skill level." },
+        "maxXp": { "type": "integer", "description": "The XP required for the next level." },
+        "emoji": { "type": "string", "description": "The emoji representing the skill." },
+        "category": { "type": "string", "description": "The category this skill belongs to." }
+      },
+      "required": ["name", "level", "xp", "maxXp", "emoji", "category"]
+    },
+    "Reminder": {
+      "title": "Reminder",
+      "description": "A reminder for the user.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "The title of the reminder." },
+        "note": { "type": "string", "description": "An optional note." },
+        "priority": { "type": "string", "enum": ["Urgent", "Normal", "Soft"], "description": "The priority level." },
+        "triggerDate": { "type": "string", "format": "date-time", "description": "When the reminder should trigger." },
+        "repeat": { "type": "string", "enum": ["None", "Daily", "Weekly", "Monthly"], "description": "The repeat interval." },
+        "imageUrl": { "type": "string", "description": "An optional image URL." },
+        "dismissed": { "type": "boolean", "description": "Whether the reminder has been dismissed." }
+      },
+      "required": ["title", "priority", "triggerDate", "repeat", "dismissed"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "The user's main profile document."
+    },
+    "/users/{userId}/habits/{habitId}": {
+      "schema": "Habit",
+      "description": "A collection of the user's habits."
+    },
+    "/users/{userId}/goals/{goalId}": {
+      "schema": "Goal",
+      "description": "A collection of the user's goals."
+    },
+    "/users/{userId}/skills/{skillId}": {
+      "schema": "Skill",
+      "description": "A collection of the user's skill levels."
+    },
+    "/users/{userId}/reminders/{reminderId}": {
+      "schema": "Reminder",
+      "description": "A collection of the user's reminders."
+    }
+  }
+}

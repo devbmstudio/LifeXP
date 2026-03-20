@@ -1,0 +1,5 @@
+{
+  "name": "LifeXP",
+  "description": "Your life. Gamified. A production-quality personal life tracking app with real-time database, authentication, and behavioral psychology built-in.",
+  "requestFramePermissions": ["camera", "microphone", "geolocation"]
+}
